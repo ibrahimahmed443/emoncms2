@@ -77,7 +77,7 @@
       $last_time = strtotime($last_row['time']);
       // kWh calculation
       $time_elapsed = ($time_now - $last_time);
-      $kwh_inc = ($time_elapsed * $value) / 3600;
+      $kwh_inc = ($time_elapsed * $value) / 3600000;
       $new_kwh = $last_kwh + $kwh_inc;
     }
 
