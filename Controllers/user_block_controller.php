@@ -20,6 +20,23 @@
       if ($result == 0) $error = "Invalid username or password";
     }
 
+    if ($form == 'register')
+    {
+      $username = db_real_escape_string($_POST['username']);
+      $password = db_real_escape_string($_POST['password']);
+
+      $error = '';
+      if (get_user_id($username)!=0) $error .= "Username already exists<br/>";
+      if (strlen($username) < 4 || strlen($username) > 30) $error .= "Username must be between 4 and 30 characters long<br/>";
+      if (strlen($password) < 4 || strlen($password) > 30) $error .= "Passwords must be between 4 and 30 characters long<br/>";
+
+      $content = $error;
+      if (!$error) {
+        create_user($username,$password);
+        $result = user_logon($username,$password);
+      }
+    }
+
     if ($form == 'logout') user_logout();
 
     if ($_SESSION['valid']) {
