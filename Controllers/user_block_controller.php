@@ -27,8 +27,8 @@
 
       $error = '';
       if (get_user_id($username)!=0) $error .= "Username already exists<br/>";
-      if (strlen($username) < 4 || strlen($username) > 30) $error .= "Username must be between 4 and 30 characters long<br/>";
-      if (strlen($password) < 4 || strlen($password) > 30) $error .= "Passwords must be between 4 and 30 characters long<br/>";
+      if (strlen($username) < 4 || strlen($username) > 30) $error = "Username must be 4 to 30 characters<br/>";
+      if (strlen($password) < 4 || strlen($password) > 30) $error = "Password must be 4 to 30 characters<br/>";
 
       $content = $error;
       if (!$error) {

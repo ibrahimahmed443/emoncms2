@@ -20,7 +20,7 @@
   <body>
   <div id="bound">
     
-   <div id="header" style="height:75px; padding:20px;">
+   <div id="header" style="height:85px; padding:20px;">
         <div style="float:left; padding-top:20px;">
         <img src="<?php print $GLOBALS['path']; ?>Views/theme/emoncmslogo.png" width="300px">
         </div>
