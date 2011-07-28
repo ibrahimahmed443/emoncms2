@@ -114,6 +114,9 @@
          dataType: 'json',                            //and passes it through as a JSON    
          success: function(data) 
          {
+
+           if (data!=0){
+           
            paverage = 0;
            npoints = 0;
 
@@ -132,10 +135,17 @@
 
            paverage = paverage / npoints;
            $("#stat").html((paverage).toFixed(1)+" W | "+(kwhWindow).toFixed(1)+" kWh");
-
+           
+           }
+           else
+           {
+             $("#stat").html("No data");
+           }
            graph_data = [];   
            graph_data = data;
+      
            plotGraph(start, end);
+           
          } 
        });
      }
