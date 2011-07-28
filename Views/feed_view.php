@@ -100,6 +100,7 @@
         <option value="7">input on-time</option>
         <option value="8">kwhinc to kWh/d</option>
         <option value="9">kwh to kWh/d</option>
+        <option value="10">update feed @time</option>
 
         </select></td>
         <td><input type="text" name="arg" class="processBox" style="width:100px;" /></td>

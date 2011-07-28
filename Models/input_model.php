@@ -92,6 +92,7 @@
         if ($processid==7) {$processDescription = "input on-time: ";  $argA = get_feed_name($argA);}
         if ($processid==8) {$processDescription = "kWhinc to kWh/d: ";  $argA = get_feed_name($argA);}
         if ($processid==9) {$processDescription = "kWh to kWh/d: ";  $argA = get_feed_name($argA);}
+        if ($processid==10) {$processDescription = "update feed @time: ";  $argA = get_feed_name($argA);}
 
 
         $list[]=array($processDescription,$argA);			// Populate list array

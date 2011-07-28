@@ -40,7 +40,7 @@ function feed_controller()
     if ($processType==2) $arg = floatval($arg); 
     if ($processType==3) $arg = floatval($arg); 
     if ($processType==6) $arg = get_input_id($userid,$arg);
-    if ($processType == 1 || $processType == 4 || $processType == 5 || $processType == 7 || $processType == 8 || $processType == 9 )
+    if ($processType == 1 || $processType == 4 || $processType == 5 || $processType == 7 || $processType == 8 || $processType == 9 || $processType == 10 )
     {
       $id = get_feed_id($userid,$arg);
       if ($id==0)  $id = create_feed($userid,$arg);
