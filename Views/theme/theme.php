@@ -36,7 +36,7 @@
    <?php print $content; ?>
 
       </div>
-      <div id="footer"></div>
+      <div id="footer"><a href="http://openenergymonitor.org">www.openenergymonitor.org</a></div>
       </div>
     </div>
 
