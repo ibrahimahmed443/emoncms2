@@ -17,14 +17,25 @@ function api_controller()
  
   $args = $GLOBALS['args'];
 
-  $userid = get_apikey_user($_GET['apikey']);			// basic apikey authentication
-  if ($userid==0) { echo "valid apikey required"; die; }
+  if ($args[1] == 'inputs')
+  { 
+    $userid = get_apikey_read_user($_GET['apikey']);
+    if ($userid==0) { echo "valid read apikey required"; die; }
+    $data = get_user_inputs($userid);
+  }
 
-  if ($args[1] == 'inputs') $data = get_user_inputs($userid);
-  if ($args[1] == 'feeds') $data = get_user_feeds($userid);
+  if ($args[1] == 'feeds')
+  {
+    $userid = get_apikey_read_user($_GET['apikey']);
+    if ($userid==0) { echo "valid read apikey required"; die; }
+    $data = get_user_feeds($userid);
+  }
 
   if ($args[1] == 'getfeed')
   {
+    $userid = get_apikey_read_user($_GET['apikey']);
+    if ($userid==0) { echo "valid read apikey required"; die; }
+
     $feedid = $_GET['feedid'];
     $start = $_GET['start'];
     $end = $_GET['end'];
@@ -34,6 +45,9 @@ function api_controller()
 
   if ($args[1] == 'post')
   {
+    $userid = get_apikey_write_user($_GET['apikey']);
+    if ($userid==0) { echo "valid write apikey required"; die; }
+
     $json = $_GET['json'];
     //db_query("INSERT INTO dump (text) VALUES ('$json')");
 
@@ -50,6 +64,9 @@ function api_controller()
 
   if ($args[1] == 'fetch')
   {
+    $userid = get_apikey_write_user($_GET['apikey']);
+    if ($userid==0) { echo "valid write apikey required"; die; }
+
     $url = $_GET['url'];
     $json = file_get_contents($url);
     $datapairs = validate_json_cat($json);				// get and validate json

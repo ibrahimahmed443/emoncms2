@@ -18,7 +18,8 @@
         username varchar(30),
         password varchar(64),
         salt varchar(3),
-        apikey varchar(64)
+        apikey_write varchar(64),
+        apikey_read varchar(64)
       )"); 
 
   db_query(

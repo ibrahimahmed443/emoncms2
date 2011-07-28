@@ -8,25 +8,48 @@
     Part of the OpenEnergyMonitor project:
     http://openenergymonitor.org
   */
-  function get_apikey($userid)
+  function get_apikey_read($userid)
   {
-    $result = db_query("SELECT apikey FROM users WHERE id=$userid");
+    $result = db_query("SELECT apikey_read FROM users WHERE id=$userid");
     if ($result)
     {
       $row = db_fetch_array($result);
-      $apikey = $row['apikey'];
+      $apikey = $row['apikey_read'];
+    }
+    return $apikey;
+  }
+
+  function get_apikey_write($userid)
+  {
+    $result = db_query("SELECT apikey_write FROM users WHERE id=$userid");
+    if ($result)
+    {
+      $row = db_fetch_array($result);
+      $apikey = $row['apikey_write'];
     }
     return $apikey;
   }
  
-  function set_apikey($userid,$apikey)
+  function set_apikey_read($userid,$apikey)
   {
-    db_query("UPDATE users SET apikey = '$apikey' WHERE id='$userid'");
+    db_query("UPDATE users SET apikey_read = '$apikey' WHERE id='$userid'");
   }
 
-  function get_apikey_user($apikey)
+  function set_apikey_write($userid,$apikey)
   {
-    $result = db_query("SELECT id FROM users WHERE apikey='$apikey'");
+    db_query("UPDATE users SET apikey_write = '$apikey' WHERE id='$userid'");
+  }
+
+  function get_apikey_read_user($apikey)
+  {
+    $result = db_query("SELECT id FROM users WHERE apikey_read='$apikey'");
+    $row = db_fetch_array($result);
+    return $row['id'];
+  }
+
+  function get_apikey_write_user($apikey)
+  {
+    $result = db_query("SELECT id FROM users WHERE apikey_write='$apikey'");
     $row = db_fetch_array($result);
     return $row['id'];
   }

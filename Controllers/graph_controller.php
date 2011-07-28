@@ -21,7 +21,7 @@
       $feedname = $_POST['feedname'];
 
       $userid = $_SESSION['userid'];
-      $apikey = get_apikey($userid);
+      $apikey = get_apikey_read($userid);
 
       if ($_POST['sel'] ==1)
       {

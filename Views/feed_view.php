@@ -12,24 +12,37 @@
 
 <div class='lightbox' style='margin-bottom:20px'>
 
+  <h3>API keys</h3>
   <table>
     <tr>
-      <td><b>Your API key: </b><?php echo $apikey; ?></td>
+      <td><b>Read only access: </b><?php echo $apikey_read; ?></td>
       <td>
         <form action="" method="post">
-          <input type="hidden" name="form" value="newapi">
+          <input type="hidden" name="form" value="newapi_read">
+          <input type="submit" value="new" >
+        </form>
+      </td>
+    </tr>
+
+    <tr>
+      <td><b>Write only access: </b><?php echo $apikey_write; ?></td>
+      <td>
+        <form action="" method="post">
+          <input type="hidden" name="form" value="newapi_write">
           <input type="submit" value="new" >
         </form>
       </td>
     </tr>
   </table>
+</div>
 
+<div class='lightbox' style='margin-bottom:20px'>
   <?php
-  $testjson = $GLOBALS['path']."api/post?apikey=".$apikey."&json={power:252.4,temperature:15.4}"
+  $testjson = $GLOBALS['path']."api/post?apikey=".$apikey_write."&json={power:252.4,temperature:15.4}"
   ?>
 
-  <p><b>API url: </b><?php echo $GLOBALS['path']; ?>api/post.php</p>
-  <p><b>Copy this to your web browser or send from a nanode: </b><br/><?php echo $testjson; ?></p>
+  <p><b>API url: </b><?php echo $GLOBALS['path']; ?>api/post</p>
+  <p><b>Example: Copy this to your web browser or send from a nanode: </b><br/><?php echo $testjson; ?></p>
 </div>
 
 <div class='lightbox' style='margin-bottom:20px'>
