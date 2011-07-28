@@ -7,28 +7,5 @@
 Open source energy visualisation
 ********************************
 
-INSTALLATION STEPS
-
-1) No settings.php file? FIX:
-
-   a. Create a copy of 'default.settings.php' in '/includes'
-   b. Rename the copy to: settings.php
-
-2) Problem with database config? FIX:
-
-   a. Create a mysql database
-   b. Enter your database settings into settings.php
-
-3) System setup: database tables should auto create
-
-4) Thats setup done!
-
-NEXT
-
-Try creating a user by clicking on register (top-right)
-
-Click on feeds and try the example...
-
-
-
-
+The installation guide can be found here: 
+http://openenergymonitor.org/emon/node/150
