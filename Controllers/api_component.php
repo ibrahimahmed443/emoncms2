@@ -58,6 +58,7 @@
       if ($processid == 7) input_ontime($arg,$value);
       if ($processid == 8) kwhinc_to_kwhd($arg,$time,$value);
       if ($processid == 9) kwh_to_kwhd($arg,$time,$value);
+      if ($processid == 10) update_feed_data($arg,$time,$value);
 
     }
   }

@@ -78,6 +78,7 @@
     else return 0;
   }
 
+
   //---------------------------------------------------------------------------
   // Function feed insert
   //---------------------------------------------------------------------------
@@ -86,6 +87,24 @@
     $feedname = "feed_".trim($feedid)."";
     $time = date("Y-n-j H:i:s", $time);                        
     db_query("INSERT INTO $feedname (`time`,`data`) VALUES ('$time','$value')");
+    db_query("UPDATE feeds SET value = '$value', time = '$time' WHERE id='$feedid'");
+  }
+
+  function update_feed_data($feedid,$time,$value)
+  {                     
+    $feedname = "feed_".trim($feedid)."";
+    $time = date("Y-n-j H:i:s", $time);
+
+    $result = db_query("SELECT * FROM $feedname WHERE time = '$time'");
+    $row = db_fetch_array($result);
+
+    if ($row)
+    {
+      db_query("UPDATE $feedname SET data = '$value', time = '$time' WHERE time = '$time'");
+    } else {
+      db_query("INSERT INTO $feedname (`time`,`data`) VALUES ('$time','$value')");
+    }
+
     db_query("UPDATE feeds SET value = '$value', time = '$time' WHERE id='$feedid'");
   }
 
