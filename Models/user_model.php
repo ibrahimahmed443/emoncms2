@@ -7,6 +7,9 @@
     Emoncms - open source energy visualisation
     Part of the OpenEnergyMonitor project:
     http://openenergymonitor.org
+
+    Last update: 28th July 2011 - read and write apikeys added
+    Author: Trystan Lea trystan.lea@googlemail.com
   */
   function get_apikey_read($userid)
   {

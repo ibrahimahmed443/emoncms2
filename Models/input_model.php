@@ -7,6 +7,9 @@
     Emoncms - open source energy visualisation
     Part of the OpenEnergyMonitor project:
     http://openenergymonitor.org
+
+    Last update: 29th July 2011 - new input processing implementation
+    Author: Trystan Lea
   */
   function create_input($user,$name)
   {
@@ -69,33 +72,27 @@
     return $array['processList'];
   }
 
+  //-----------------------------------------------------------------------------------------------
+  // Gets the inputs process list and converts id's into descriptive text
+  //-----------------------------------------------------------------------------------------------
   function get_input_processlist_desc($id)
   {
-    $result = db_query("SELECT processList FROM input WHERE id='$id'");
-    $array = db_fetch_array($result);
+    $process_list = get_input_processlist($id);			// Get the input's process list
 
     $list = array();
-    if ($array['processList']){		
-      $array = explode(",", $array['processList']);
-      foreach ($array as $row)    			// For all input processes
+    if ($process_list){		
+      $array = explode(",", $process_list);			// input process list is comma seperated
+      foreach ($array as $row)    				// For all input processes
       {
-        $row = explode(":", $row);    			// Divide into process id and arg
+        $row = explode(":", $row);    				// Divide into process id and arg
+        $processid = $row[0]; $arg = $row[1];			// Named variables
+        $process = get_process($processid);			// gets process details of id given
 
-        $processid = $row[0];				// Process id
-        $argA = $row[1];
-        if ($processid==1) {$processDescription = "Log to feed: ";  $argA = get_feed_name($argA);}
-        if ($processid==2) {$processDescription = "x: "; }
-        if ($processid==3) $processDescription = "+: ";
-        if ($processid==4) {$processDescription = "Power to kWh: ";  $argA = get_feed_name($argA);}
-        if ($processid==5) {$processDescription = "Power to kWh/d ";  $argA = get_feed_name($argA);}
-        if ($processid==6) $processDescription = "x input";
-        if ($processid==7) {$processDescription = "input on-time: ";  $argA = get_feed_name($argA);}
-        if ($processid==8) {$processDescription = "kWhinc to kWh/d: ";  $argA = get_feed_name($argA);}
-        if ($processid==9) {$processDescription = "kWh to kWh/d: ";  $argA = get_feed_name($argA);}
-        if ($processid==10) {$processDescription = "update feed @time: ";  $argA = get_feed_name($argA);}
+        $processDescription = $process[0];			// gets process description
+        if ($process[1] == 1) $arg = get_input_name($arg);	// if input: get input name
+        if ($process[1] == 2) $arg = get_feed_name($arg);	// if feed: get feed name
 
-
-        $list[]=array($processDescription,$argA);			// Populate list array
+        $list[]=array($processDescription,$arg);		// Populate list array
       }
     }
     return $list;

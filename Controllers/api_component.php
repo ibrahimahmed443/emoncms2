@@ -7,6 +7,9 @@
     Emoncms - open source energy visualisation
     Part of the OpenEnergyMonitor project:
     http://openenergymonitor.org
+
+    Last update: 29th July 2011 - new input processing implementation
+    Author: Trystan Lea
   */
   function register_inputs($userid,$datapairs,$time)
   {
@@ -41,25 +44,22 @@
   foreach ($inputs as $input)            
   {
     $id = $input[0];
-    $processlist = explode(",", get_input_processlist($id));				
-    $value = $input[2];
-    foreach ($processlist as $inputprocess)    			        
+    $input_processlist =  get_input_processlist($id);
+
+    if ($input_processlist)
     {
-      $inputprocess = explode(":", $inputprocess); 		// Divide into process id and arg
-      $processid = $inputprocess[0];				// Process id
-      $arg = $inputprocess[1];	 				// Can be value or feed id
+      $processlist = explode(",",$input_processlist);				
+      $value = $input[2];
+      foreach ($processlist as $inputprocess)    			        
+      {
+        $inputprocess = explode(":", $inputprocess); 		// Divide into process id and arg
+        $processid = $inputprocess[0];				// Process id
+        $arg = $inputprocess[1];	 			// Can be value or feed id
 
-      if ($processid == 1) insert_feed_data($arg,$time,$value);	// 1. Log
-      if ($processid == 2) $value *= $arg;			// 2. Scale
-      if ($processid == 3) $value += $arg;			// 3. Offset
-      if ($processid == 4) power_to_kwh($arg,$time,$value);
-      if ($processid == 5) power_to_kwhd($arg,$time,$value);
-      if ($processid == 6) $value = times_input($arg,$value);	// 6. Multiply with another input
-      if ($processid == 7) input_ontime($arg,$value);
-      if ($processid == 8) kwhinc_to_kwhd($arg,$time,$value);
-      if ($processid == 9) kwh_to_kwhd($arg,$time,$value);
-      if ($processid == 10) update_feed_data($arg,$time,$value);
-
+        $process_list = get_process_list();
+        $process_function = $process_list[$processid][2];	// get process function name
+        $value = $process_function($arg,$time,$value);		// execute process function
+      }
     }
   }
   }

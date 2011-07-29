@@ -7,6 +7,9 @@
     Emoncms - open source energy visualisation
     Part of the OpenEnergyMonitor project:
     http://openenergymonitor.org
+
+    Last update: 29th July 2011 - end's session if user does not exist
+    Author: Trystan Lea trystan.lea@googlemail.com
   */
   function user_block_controller()
   {
@@ -42,6 +45,7 @@
     if ($_SESSION['valid']) {
       $name = get_user_name($_SESSION['userid']);
       $content = view("user/account_block.php", array('name' => $name));
+      if (!$name) $_SESSION['valid'] = 0;
     }
 
     if (!$_SESSION['valid']) $content = view("user/login_block.php", array('error'=>$error));

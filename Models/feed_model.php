@@ -7,6 +7,9 @@
     Emoncms - open source energy visualisation
     Part of the OpenEnergyMonitor project:
     http://openenergymonitor.org
+
+    Last update: 29th July 2011 - new input processing implementation
+    Author: Trystan Lea trystan.lea@googlemail.com
   */
 
   //----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -88,6 +91,7 @@
     $time = date("Y-n-j H:i:s", $time);                        
     db_query("INSERT INTO $feedname (`time`,`data`) VALUES ('$time','$value')");
     db_query("UPDATE feeds SET value = '$value', time = '$time' WHERE id='$feedid'");
+    return $value;
   }
 
   function update_feed_data($feedid,$time,$value)
@@ -106,6 +110,7 @@
     }
 
     db_query("UPDATE feeds SET value = '$value', time = '$time' WHERE id='$feedid'");
+    return $value;
   }
 
   //---------------------------------------------------------------------------

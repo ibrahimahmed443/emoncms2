@@ -77,24 +77,21 @@
 
 
   <?php 
-  if (isset($processlist))
+  if (isset($input_processlist))
   {
   ?>
 
-  <table class='catlist'><tr><th>Order</th><th>Process</th><th>Arg</th><th>Actions:</th></tr>
+  <table class='catlist'><tr><th>Order</th><th>Process</th><th>Arg</th><th></th></tr>
   
   <?php $i = 0;
      
 
-          foreach ($processlist as $inputProcess)    		// For all input processes
+          foreach ($input_processlist as $input_process)    		// For all input processes
           {
-            
-            $processDescription = $inputProcess[0];				// Process id
-            $argA = $inputProcess[1];
             $i++;
             echo "<tr class='d" . ($i & 1) . "' >";
-            echo "<td>".$i."</td><td>".$processDescription."</td><td>".$argA."</td>";
-            echo "<td><button type='button'>Edit</button><button type='button'>Del</button></td></tr>";
+            echo "<td>".$i."</td><td>".$input_process[0]."</td><td>".$input_process[1]."</td>";
+            echo "<td></td></tr>";
           }
         
    ?>
@@ -104,16 +101,9 @@
         <input type="hidden" name="id" value="<?php echo $inputsel; ?>">
         <select class="processSelect" name="sel">
 
-        <option value="1">Log</option>
-        <option value="2">x</option>
-        <option value="3">+</option>
-        <option value="4">Power to kWh</option>
-        <option value="5">Power to kWh/d</option>
-        <option value="6">x input</option>
-        <option value="7">input on-time</option>
-        <option value="8">kwhinc to kWh/d</option>
-        <option value="9">kwh to kWh/d</option>
-        <option value="10">update feed @time</option>
+        <?php for ($i=1; $i<=count($process_list); $i++) { ?>
+        <option value="<?php echo $i; ?>"><?php echo $process_list[$i][0]; ?></option>
+        <?php } ?>
 
         </select></td>
         <td><input type="text" name="arg" class="processBox" style="width:100px;" /></td>

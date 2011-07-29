@@ -7,12 +7,16 @@
     Emoncms - open source energy visualisation
     Part of the OpenEnergyMonitor project:
     http://openenergymonitor.org
+
+    Last update: 29th July 2011 - new input processing implementation
+    Author: Trystan Lea trystan.lea@googlemail.com
   */
 function feed_controller()
 {
 
   if (!$_SESSION['valid']) return "Sorry, you must be logged in to see this page";
 
+  require "Models/process_model.php";
   require "Models/input_model.php";
   require "Models/feed_model.php";
 
@@ -36,32 +40,34 @@ function feed_controller()
   if ($_POST["form"] == "input")
   { 
     $inputid = intval($_POST["id"]);
-    $processlist = get_input_processlist_desc($inputid);
+    $input_processlist = get_input_processlist_desc($inputid);
   }
 
   if ($_POST["form"] == "process")
   { 
     $inputid = intval($_POST["id"]);
-    $processType = intval($_POST["sel"]);			// get process type
+    $processid = intval($_POST["sel"]);			// get process type
     $arg = $_POST["arg"];
-    if ($processType==2) $arg = floatval($arg); 
-    if ($processType==3) $arg = floatval($arg); 
-    if ($processType==6) $arg = get_input_id($userid,$arg);
-    if ($processType == 1 || $processType == 4 || $processType == 5 || $processType == 7 || $processType == 8 || $processType == 9 || $processType == 10 )
+
+    $process = get_process($processid);
+    if ($process[1] == 0) $arg = floatval($arg);
+    if ($process[1] == 1) $arg = get_input_id($userid,$arg);
+    if ($process[1] == 2)
     {
       $id = get_feed_id($userid,$arg);
       if ($id==0)  $id = create_feed($userid,$arg);
       $arg = $id;
     }
-    add_input_process($inputid,$processType,$arg);
-    $processlist = get_input_processlist_desc($inputid);
+    add_input_process($inputid,$processid,$arg);
+    $input_processlist = get_input_processlist_desc($inputid);
   }
 
   $inputs = get_user_inputs($userid);
   $feeds = get_user_feeds($userid);
 
+  $process_list = get_process_list();
   // Render view
-  $content = view("feed_view.php",array('apikey_read' => $apikey_read,'apikey_write' => $apikey_write, 'inputs' => $inputs, 'inputsel' => $inputid, 'feeds' => $feeds, 'processlist' => $processlist));
+  $content = view("feed_view.php",array('apikey_read' => $apikey_read,'apikey_write' => $apikey_write, 'inputs' => $inputs, 'inputsel' => $inputid, 'feeds' => $feeds, 'input_processlist' => $input_processlist, 'process_list'=>$process_list));
 
   return $content;
 }

@@ -7,11 +7,57 @@
     Emoncms - open source energy visualisation
     Part of the OpenEnergyMonitor project:
     http://openenergymonitor.org
+
+    Last update: 29th July 2011 - new input processing implementation
+    Author: Trystan Lea trystan.lea@googlemail.com
   */
+
+
+  function get_process_list()
+  {
+
+    $list = array();
+
+    // Arg type
+    // 0 - value
+    // 1 - input id
+    // 2 - feed id
+
+    //		      Process description	Arg type	Function Name
+    $list[1] = array( "Log to feed",		2,		"insert_feed_data"	);
+    $list[2] = array( "x" ,			0,		"scale"			);
+    $list[3] = array( "+" ,			0,		"offset"		);
+    $list[4] = array( "Power to kWh" ,		2,		"power_to_kwh"		);
+    $list[5] = array( "Power to kWh/d", 	2,		"power_to_kwhd"		);
+    $list[6] = array( "x input",		1,		"times_input"		);
+    $list[7] = array( "input on-time",		2,		"input_ontime"		);
+    $list[8] = array( "kWhinc to kWh/d",	2,		"kwhinc_to_kwhd"	);
+    $list[9] = array( "kWh to kWh/d",		2,		"kwh_to_kwhd"		);
+    $list[10] = array( "update feed @time",	2,		"update_feed_data"	);
+
+    return $list;
+  }
+
+  function get_process($id)
+  {
+    $list = get_process_list();
+    return $list[$id];
+  }
+
+  function scale($arg,$time,$value)
+  {
+    return $value * $arg;
+  }
+
+  function offset($arg,$time,$value)
+  {
+    return $value + $arg;
+  }
+
   //---------------------------------------------------------------------------------------
   // Times value by current value of another input
   //---------------------------------------------------------------------------------------
-  function times_input($id,$value)
+  function times_input($id,$time,$value)
   {
     $result = db_query("SELECT value FROM input WHERE id = '$id'");
     $row = db_fetch_array($result);
@@ -45,6 +91,8 @@
     $time = date("Y-n-j H:i:s", $time_now);  
     db_query("INSERT INTO $feedname (`time`,`data`) VALUES ('$time','$new_kwh')");
     db_query("UPDATE feeds SET value = '$new_kwh', time = '$time' WHERE id='$feedid'");
+
+    return $value;
   }
 
   //---------------------------------------------------------------------------------------
@@ -86,15 +134,17 @@
 
     $updatetime = date("Y-n-j H:i:s",     $time_now);
     db_query("UPDATE feeds SET value = '$new_kwh', time = '$updatetime' WHERE id='$feedid'");
+
+    return $value;
   }
 
   //---------------------------------------------------------------------------------------
   // kWh increment to kWhd
   //---------------------------------------------------------------------------------------
-  function kwhinc_to_kwhd($feedid,$time_now,$wh_inc)
+  function kwhinc_to_kwhd($feedid,$time_now,$value)
   {
     $feedname = "feed_".trim($feedid)."";
-    $new_wh = $wh_inc/1000;
+    $new_wh = $value/1000;
 
     $time = date('y/m/d', mktime(0, 0, 0, date("m") , date("d") , date("Y")));
 
@@ -111,7 +161,7 @@
     }
     else
     {
-      $new_wh = $last_row['data'] + ($wh_inc/1000);
+      $new_wh = $last_row['data'] + ($value/1000);
     }
 
     // update kwhd feed
@@ -119,6 +169,8 @@
 
     $updatetime = date("Y-n-j H:i:s", $time_now);
     db_query("UPDATE feeds SET value = '$new_wh', time = '$updatetime' WHERE id='$feedid'");
+
+    return $value;
   }
 
   //---------------------------------------------------------------------------------------
@@ -159,13 +211,15 @@
     $updatetime = date("Y-n-j H:i:s", $time_now);
     db_query("UPDATE feeds SET value = '$new_kwh', time = '$updatetime' WHERE id='$feedid'");
 
+    return $value;
   }
 
   //---------------------------------------------------------------------------------
   // This method converts accumulated energy to kwhd
   //---------------------------------------------------------------------------------
-  function kwh_to_kwhd($feedid,$time_now,$kwh)
+  function kwh_to_kwhd($feedid,$time_now,$value)
   {
+    $kwh = $value;
     // tmpkwhd table: rows of: feedid | kwh
 
     $kwh_today = 0;
@@ -204,6 +258,8 @@
 
     $updatetime = date("Y-n-j H:i:s", $time_now);
     db_query("UPDATE feeds SET value = '$kwh_today', time = '$updatetime' WHERE id='$feedid'");
+
+    return $value;
   }
   //---------------------------------------------------------------------------------
 
