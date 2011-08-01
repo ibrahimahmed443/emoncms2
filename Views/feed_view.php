@@ -125,8 +125,14 @@
     {
       $timenow = time();
       $time = strtotime($feed[2]);
-      $updated = ($timenow - $time)."s ago";
-      if (($timenow - $time)>3600) $updated = "inactive";
+      $sec = ($timenow - $time);
+      $min = number_format($sec/60,0);
+      $hour = number_format($sec/3600,0);
+
+      $updated = $sec."s ago";
+      if ($sec>180) $updated = $min." mins ago";
+      if ($sec>(3600*2)) $updated = $hour." hours ago";
+      if ($hour>24) $updated = "inactive";
       $i++;
       ?>
       <tr class="<?php echo 'd'.($i & 1); ?> " >
