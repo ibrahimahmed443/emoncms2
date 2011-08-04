@@ -133,12 +133,18 @@
       if ($sec>180) $updated = $min." mins ago";
       if ($sec>(3600*2)) $updated = $hour." hours ago";
       if ($hour>24) $updated = "inactive";
+
+
+      $color = "rgb(255,125,20)";
+      if ($sec<30) $color = "rgb(240,180,20)";
+      if ($sec<10) $color = "rgb(50,200,50)";
+
       $i++;
       ?>
       <tr class="<?php echo 'd'.($i & 1); ?> " >
       <td><?php echo $feed[0]; ?></td>
       <td><?php echo $feed[1]; ?></td>
-      <td><?php echo $updated; ?></td>
+      <td style="color:<?php echo $color; ?>"><?php echo $updated; ?></td>
       <td><?php echo $feed[3]; ?></td>
       <td>
       <form action="graph" method="post">
