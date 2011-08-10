@@ -68,7 +68,7 @@
       $feedid = $row['feedid'];
       $result = db_query("SELECT name FROM feeds WHERE id='$feedid'");
       $row_name = db_fetch_array($result);
-      if ($key == $row_name['name']) return $feedid;
+      if ($name == $row_name['name']) return $feedid;
     }
     return 0;
   }
