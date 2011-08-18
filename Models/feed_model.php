@@ -66,8 +66,8 @@
     while ($row = db_fetch_array($result))
     {
       $feedid = $row['feedid'];
-      $result = db_query("SELECT name FROM feeds WHERE id='$feedid'");
-      $row_name = db_fetch_array($result);
+      $resultB = db_query("SELECT name FROM feeds WHERE id='$feedid'");
+      $row_name = db_fetch_array($resultB);
       if ($name == $row_name['name']) return $feedid;
     }
     return 0;
