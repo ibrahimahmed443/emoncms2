@@ -138,6 +138,7 @@
   //---------------------------------------------------------------------------
   function get_feed_data($feedid,$start,$end,$resolution)
   {
+    //date_default_timezone_set('GMT');
     $feedname = "feed_".trim($feedid)."";
     $start = date("Y-n-j H:i:s", ($start/1000));		//Time format conversion
     $end = date("Y-n-j H:i:s", ($end/1000));  			//Time format conversion
