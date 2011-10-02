@@ -91,7 +91,7 @@
             data: graph_data ,				//data
             lines: { show: true, fill: true }		//style
           }], {
-        xaxis: { mode: "time", 
+        xaxis: { mode: "time", localTimezone: true,
                   min: ((start)),
 		  max: ((end))
         },

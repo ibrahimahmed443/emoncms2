@@ -97,7 +97,7 @@
           { 
            $.plot($("#graph"),
               [{data: data, lines: { fill: true }}],
-              {xaxis: { mode: "time" },
+              {xaxis: { mode: "time", localTimezone: true },
               //grid: { show: true, hoverable: true, clickable: true },
               selection: { mode: "xy" }
             });
