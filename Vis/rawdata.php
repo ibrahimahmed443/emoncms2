@@ -58,7 +58,7 @@
    //----------------------------------------------------------------------------------------
    // These start time and end time set the initial graph view window 
    //----------------------------------------------------------------------------------------
-   var timeWindow = (3600000*0.4);				//Initial time window
+   var timeWindow = (3600000*24);				//Initial time window
    var start = ((new Date()).getTime())-timeWindow;		//Get start time
    var end = (new Date()).getTime();				//Get end time
 
